@@ -1,0 +1,50 @@
+﻿<Window x:Class="VehicleCollection.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:VehicleCollection"
+        mc:Ignorable="d"
+        Title="Vehicle Collection" Height="450" Width="800">
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="20"/>
+			<RowDefinition Height="*"/>
+			<RowDefinition Height="*"/>
+			<RowDefinition Height="*"/>
+			<RowDefinition Height="20"/>
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="20"/>
+			<ColumnDefinition Width="*"/>
+			<ColumnDefinition Width="*"/>
+			<ColumnDefinition Width="*"/>
+			<ColumnDefinition Width="*"/>
+			<ColumnDefinition Width="20"/>
+		</Grid.ColumnDefinitions>
+
+		<ComboBox 
+			x:Name="vehicleList" 
+			Grid.Column="1" 
+			Grid.Row="1" 
+			Height="30" 
+			VerticalAlignment="Top"
+		>
+			<ComboBox.ItemTemplate>
+				<DataTemplate>
+					<TextBlock Text="{Binding Description}"/>
+				</DataTemplate>
+			</ComboBox.ItemTemplate>
+		</ComboBox>
+
+		<Button 
+			x:Name="createVehicle"
+			Content="Create New Vehicle"
+			Grid.Column="1"
+			Grid.Row="3"
+			Height="50"
+			VerticalAlignment="Bottom"
+			Click="{ Binding CreateVehicle }"
+		/> 
+	</Grid>
+</Window>
