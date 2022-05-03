@@ -29,6 +29,8 @@
 			Grid.Row="1" 
 			Height="30" 
 			VerticalAlignment="Top"
+            ItemsSource="{Binding Vehicles}"
+            SelectedItem="{Binding SelectedVehicle}"
 		>
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
@@ -37,14 +39,29 @@
 			</ComboBox.ItemTemplate>
 		</ComboBox>
 
-		<Button 
-			x:Name="createVehicle"
-			Content="Create New Vehicle"
-			Grid.Column="1"
+        <StackPanel
 			Grid.Row="3"
-			Height="50"
-			VerticalAlignment="Bottom"
-			Click="{ Binding CreateVehicle }"
-		/> 
+            Grid.Column="1"   
+            VerticalAlignment="Bottom"
+        >
+            <Button 
+				x:Name="updateVehicle"
+				Content="Update Vehicle"
+				VerticalAlignment="Bottom"
+				Click="{ Binding Save }"
+			/>
+            <Button 
+				x:Name="deleteVehicle"
+				Content="Delete Vehicle"
+				VerticalAlignment="Bottom"
+				Click="{ Binding CreateVehicle }"
+			/>
+            <Button 
+				x:Name="createVehicle"
+				Content="Create New Vehicle"
+				Click="{ Binding CreateVehicle }"
+			/>
+        </StackPanel>
+
 	</Grid>
 </Window>
