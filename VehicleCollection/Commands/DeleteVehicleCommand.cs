@@ -8,11 +8,11 @@ using VehicleCollection.ViewModels;
 
 namespace VehicleCollection.Commands
 {
-    public class CreateVehicleCommand : CommandBase
+    public class DeleteVehicleCommand : CommandBase
     {
         private readonly VehicleViewModel _vehicleVM;
         private readonly VehicleDatabase _vehicleDB;
-        public CreateVehicleCommand(VehicleViewModel vm, VehicleDatabase model)
+        public DeleteVehicleCommand(VehicleViewModel vm, VehicleDatabase model)
         {
             _vehicleVM = vm;
             _vehicleDB = model;
@@ -20,8 +20,11 @@ namespace VehicleCollection.Commands
         }
         public override void Execute(object? param)
         {
-            this._vehicleVM.SelectedVehicle = new Vehicle("", "", "", "", "", "", new HashSet<string>());
             this._vehicleDB.UpdateVehicle(_vehicleVM.SelectedVehicle, _vehicleVM.ModifiedVehicle);
+        }
+        public override bool CanExecute(object? param)
+        {
+            return this._vehicleVM.SelectedVehicle is not null;
         }
     }
 }

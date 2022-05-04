@@ -7,102 +7,87 @@ using System.ComponentModel;
 using VehicleCollection.Models;
 using System.Windows.Input;
 using System.Collections.ObjectModel;
+using VehicleCollection.Commands;
 
 namespace VehicleCollection.ViewModels
 {
-	internal class VehicleViewModel : INotifyPropertyChanged
-	{
-		public event PropertyChangedEventHandler PropertyChanged;
+    public class VehicleViewModel : INotifyPropertyChanged
+    {
+        public event PropertyChangedEventHandler? PropertyChanged;
 
-		private VehicleDatabase _vehicleDB;
+        private readonly VehicleDatabase _vehicleDB;
+        private Vehicle _selectedVehicle;
+        private Vehicle _modifiedVehicle;
 
-		public ObservableCollection<Vehicle> Vehicles;
-		public Vehicle SelectedVehicle
+        public ObservableCollection<Vehicle> Vehicles
         {
-			get
+            get; set;
+        }
+        public Vehicle SelectedVehicle
+        {
+            get
             {
-				return SelectedVehicle;
+                return _selectedVehicle;
             }
-			set
+            set
             {
-				ModifiedVehicle = new Vehicle(
-					SelectedVehicle.VIN, 
-					SelectedVehicle.LicensePlate, 
-					SelectedVehicle.ModelName, 
-					SelectedVehicle.Brand, 
-					SelectedVehicle.FuelType, 
-					SelectedVehicle.Color, 
-					SelectedVehicle.Equipment
-				);
+                if (value is null) return;
+
+                _selectedVehicle = value;
+
+                ModifiedVehicle = new Vehicle(
+                    _selectedVehicle.VIN,
+                    _selectedVehicle.LicensePlate,
+                    _selectedVehicle.ModelName,
+                    _selectedVehicle.Brand,
+                    _selectedVehicle.FuelType,
+                    _selectedVehicle.Color,
+                    _selectedVehicle.Equipment
+                );
             }
         }
-		public Vehicle ModifiedVehicle;
-
-		public string VIN
+        public Vehicle ModifiedVehicle
         {
-			get
+            get
             {
-				return ModifiedVehicle.VIN;
+                return _modifiedVehicle;
             }
-			set
+            set
             {
-				ModifiedVehicle.VIN = value;
-				NotifyPropertyChanged(nameof(VIN));
+                _modifiedVehicle = value;
+                NotifyPropertyChanged(nameof(ModifiedVehicle));
             }
         }
-		public string LicensePlate
-		{
-			get
-			{
-				return ModifiedVehicle.LicensePlate;
-			}
-			set
-			{
-				ModifiedVehicle.LicensePlate = value;
-				NotifyPropertyChanged(nameof(LicensePlate));
-			}
-		}
-		public string ModelName
-		{
-			get
-			{
-				return ModifiedVehicle.ModelName;
-			}
-			set
-			{
-				ModifiedVehicle.ModelName = value;
-				NotifyPropertyChanged(nameof(ModelName));
-			}
-		}
-
-		public string FuelType
-		{
-			get
-			{
-				return ModifiedVehicle.FuelType;
-			}
-			set
-			{
-				ModifiedVehicle.FuelType = value;
-				NotifyPropertyChanged(nameof(FuelType));
-			}
-		}
-
-		public ICommand SelectVehicle;
-		public ICommand DeleteVehicle;
-		public ICommand CreateVehicle;
-		public ICommand Save;
-
-
-		public VehicleViewModel()
-		{
-			this._vehicleDB = new VehicleDatabase("http://hardcodedendpoint");
-			this.Vehicles = this._vehicleDB.GetVehicles();
-		}
-
-		private void NotifyPropertyChanged(string propertyName)
+        public string VIN
         {
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            get
+            {
+                return _modifiedVehicle.VIN;
+            }
+            set
+            {
+                _modifiedVehicle.VIN = value;
+                NotifyPropertyChanged(nameof(ModifiedVehicle));
+            }
         }
-	}
+
+        public CommandBase DeleteVehicle;
+        public CommandBase CreateVehicle;
+        public CommandBase UpdateVehicle;
+
+
+        public VehicleViewModel()
+        {
+            this._vehicleDB = new VehicleDatabase("http://hardcodedendpoint");
+            this.Vehicles = this._vehicleDB.GetVehicles();
+            this.UpdateVehicle = new UpdateVehicleCommand(this, this._vehicleDB);
+            this.CreateVehicle = new CreateVehicleCommand(this, this._vehicleDB);
+            this.DeleteVehicle = new DeleteVehicleCommand(this, this._vehicleDB);
+        }
+
+        private void NotifyPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+    }
 }

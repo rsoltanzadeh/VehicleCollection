@@ -16,17 +16,17 @@ using VehicleCollection.ViewModels;
 
 namespace VehicleCollection
 {
-	/// <summary>
-	/// Interaction logic for MainWindow.xaml
-	/// </summary>
-	public partial class MainWindow : Window
-	{
-		private readonly VehicleViewModel _viewModel;
-		public MainWindow()
-		{
+    /// <summary>
+    /// Interaction logic for MainWindow.xaml
+    /// </summary>
+    public partial class MainWindow : Window
+    {
+        private readonly VehicleViewModel _viewModel;
+        public MainWindow()
+        {
             InitializeComponent();
-			_viewModel = new VehicleViewModel();
-			DataContext = _viewModel;
-		}
-	}
+            _viewModel = new VehicleViewModel();
+            DataContext = _viewModel;
+        }
+    }
 }

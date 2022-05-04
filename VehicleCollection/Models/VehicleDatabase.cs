@@ -6,14 +6,16 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace VehicleCollection.Models
-{	public class VehicleDatabase
-	{
+{
+    public class VehicleDatabase
+    {
         private string _apiEndpoint;
 
         public ObservableCollection<Vehicle> GetVehicles()
         {
             ObservableCollection<Vehicle> vehicles = new ObservableCollection<Vehicle>();
-            vehicles.Add(new Vehicle("qwe", "asd", "model", "brand", "fuel", "red", new HashSet<string>()));
+            vehicles.Add(new Vehicle("43817", "ABC123", "S70", "Volvo", "Bensin", "Vit", new HashSet<string>()));
+            vehicles.Add(new Vehicle("14145", "ZXC987", "Civic Sport Plus", "Honda", "Bensin", "Metallic Svart", new HashSet<string>()));
             return vehicles;
         }
 
