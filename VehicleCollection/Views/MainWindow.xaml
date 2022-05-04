@@ -68,18 +68,16 @@
         <StackPanel
             Grid.Column="2"
             Grid.Row="1"
-            
         >
             <TextBlock 
-                Text="Equipment"
+                Text="Brand"
                 TextAlignment="Center"
                 FontWeight="Bold"
             />
-            <ListBox
+            <TextBox 
                 Margin="10 5"
-                ItemsSource="{Binding ModifiedVehicle.Equipment}"   
-            >
-            </ListBox>
+                Text="{Binding Brand, UpdateSourceTrigger=PropertyChanged}"
+            />
         </StackPanel>
         <StackPanel
             Grid.Column="2"
@@ -90,24 +88,26 @@
                 TextAlignment="Center"
                 FontWeight="Bold"
             />
-            <TextBlock 
-                Text="{Binding ModifiedVehicle.Color}"
-                TextAlignment="Center"
+            <TextBox 
+                Margin="10 5"
+                Text="{Binding Color, UpdateSourceTrigger=PropertyChanged}"
             />
         </StackPanel>
         <StackPanel
             Grid.Column="2"
             Grid.Row="3"
+            
         >
             <TextBlock 
-                Text="Brand"
+                Text="Equipment"
                 TextAlignment="Center"
                 FontWeight="Bold"
             />
-            <TextBlock 
-                Text="{Binding ModifiedVehicle.Brand}"
-                TextAlignment="Center"
-            />
+            <ListBox
+                Margin="10 5"
+                ItemsSource="{Binding Equipment}"   
+            >
+            </ListBox>
         </StackPanel>
 
         <StackPanel
@@ -121,7 +121,7 @@
             />
             <TextBox 
                 Margin="10 5"
-                Text="{Binding ModifiedVehicle.VIN}"
+                Text="{Binding VIN, UpdateSourceTrigger=PropertyChanged}"
             />
         </StackPanel>
         <StackPanel
@@ -135,7 +135,7 @@
             />
             <TextBox 
                 Margin="10 5"
-                Text="{Binding ModifiedVehicle.ModelName}"
+                Text="{Binding ModelName, UpdateSourceTrigger=PropertyChanged}"
             />
         </StackPanel>
         <StackPanel
@@ -149,7 +149,7 @@
             />
             <TextBox 
                 Margin="10 5"
-                Text="{Binding ModifiedVehicle.LicensePlate}"
+                Text="{Binding LicensePlate, UpdateSourceTrigger=PropertyChanged}"
             />
         </StackPanel>
         <StackPanel
@@ -163,8 +163,17 @@
             />
             <TextBox 
                 Margin="10 5"
-                Text="{Binding ModifiedVehicle.FuelType}"
+                Text="{Binding FuelType, UpdateSourceTrigger=PropertyChanged}"
             />
         </StackPanel>
+        <TextBlock
+            Grid.Column="2"
+            Grid.ColumnSpan="3"
+            Grid.Row="3"
+            Text="{Binding SelectedVehicle.Description}"
+            FontSize="32"
+            TextAlignment="Center"
+            VerticalAlignment="Bottom"
+        />
     </Grid>
 </Window>

@@ -25,6 +25,8 @@ namespace VehicleCollection.Commands
         }
         public override bool CanExecute(object? param)
         {
+            if (this._vehicleVM.SelectedVehicle is null) return false;
+
             return !this._vehicleVM.SelectedVehicle.Equals(this._vehicleVM.ModifiedVehicle);
         }
     }

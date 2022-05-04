@@ -44,6 +44,7 @@ namespace VehicleCollection.ViewModels
                     _selectedVehicle.Color,
                     _selectedVehicle.Equipment
                 );
+                NotifyPropertyChanged(nameof(SelectedVehicle));
             }
         }
         public Vehicle ModifiedVehicle
@@ -56,35 +57,132 @@ namespace VehicleCollection.ViewModels
             {
                 _modifiedVehicle = value;
                 NotifyPropertyChanged(nameof(ModifiedVehicle));
+                NotifyPropertyChanged(nameof(VIN));
+                NotifyPropertyChanged(nameof(Color));
+                NotifyPropertyChanged(nameof(Brand));
+                NotifyPropertyChanged(nameof(ModelName));
+                NotifyPropertyChanged(nameof(LicensePlate));
+                NotifyPropertyChanged(nameof(Equipment));
+                NotifyPropertyChanged(nameof(FuelType));
             }
         }
         public string VIN
         {
             get
             {
+                if (_modifiedVehicle is null) return "";
                 return _modifiedVehicle.VIN;
             }
             set
             {
                 _modifiedVehicle.VIN = value;
                 NotifyPropertyChanged(nameof(ModifiedVehicle));
+                NotifyPropertyChanged(nameof(VIN));
+            }
+        }
+        public string Color
+        {
+            get
+            {
+                if (_modifiedVehicle is null) return "";
+                return _modifiedVehicle.Color;
+            }
+            set
+            {
+                _modifiedVehicle.Color = value;
+                NotifyPropertyChanged(nameof(ModifiedVehicle));
+                NotifyPropertyChanged(nameof(Color));
+            }
+        }
+        public string Brand
+        {
+            get
+            {
+                if (_modifiedVehicle is null) return "";
+                return _modifiedVehicle.Brand;
+            }
+            set
+            {
+                _modifiedVehicle.Brand = value;
+                NotifyPropertyChanged(nameof(ModifiedVehicle));
+                NotifyPropertyChanged(nameof(Brand));
+            }
+        }
+        public string ModelName
+        {
+            get
+            {
+                if (_modifiedVehicle is null) return "";
+                return _modifiedVehicle.ModelName;
+            }
+            set
+            {
+                _modifiedVehicle.ModelName = value;
+                NotifyPropertyChanged(nameof(ModifiedVehicle));
+                NotifyPropertyChanged(nameof(ModelName));
+            }
+        }
+        public string FuelType
+        {
+            get
+            {
+                if (_modifiedVehicle is null) return "";
+                return _modifiedVehicle.FuelType;
+            }
+            set
+            {
+                _modifiedVehicle.FuelType = value;
+                NotifyPropertyChanged(nameof(ModifiedVehicle));
+                NotifyPropertyChanged(nameof(FuelType));
+            }
+        }
+        public string LicensePlate
+        {
+            get
+            {
+                if (_modifiedVehicle is null) return "";
+                return _modifiedVehicle.LicensePlate;
+            }
+            set
+            {
+                _modifiedVehicle.LicensePlate = value;
+                NotifyPropertyChanged(nameof(ModifiedVehicle));
+                NotifyPropertyChanged(nameof(LicensePlate));
+            }
+        }
+        public ObservableCollection<String> Equipment
+        {
+            get
+            {
+                if (_modifiedVehicle is null) return new ObservableCollection<string>();
+                return _modifiedVehicle.Equipment;
+            }
+            set
+            {
+                _modifiedVehicle.Equipment = value;
+                NotifyPropertyChanged(nameof(ModifiedVehicle));
+                NotifyPropertyChanged(nameof(Equipment));
             }
         }
 
-        public CommandBase DeleteVehicle;
-        public CommandBase CreateVehicle;
-        public CommandBase UpdateVehicle;
+        public CommandBase DeleteVehicle { get; set; }
+        public CommandBase CreateVehicle { get; set; }
+        public CommandBase UpdateVehicle { get; set; }
 
 
         public VehicleViewModel()
         {
-            this._vehicleDB = new VehicleDatabase("http://hardcodedendpoint");
-            this.Vehicles = this._vehicleDB.GetVehicles();
-            this.UpdateVehicle = new UpdateVehicleCommand(this, this._vehicleDB);
-            this.CreateVehicle = new CreateVehicleCommand(this, this._vehicleDB);
-            this.DeleteVehicle = new DeleteVehicleCommand(this, this._vehicleDB);
+            _vehicleDB = new VehicleDatabase("http://hardcodedendpoint");
+            Vehicles = _vehicleDB.GetVehicles();
+            UpdateVehicle = new UpdateVehicleCommand(this, _vehicleDB);
+            CreateVehicle = new CreateVehicleCommand(this, _vehicleDB);
+            DeleteVehicle = new DeleteVehicleCommand(this, _vehicleDB);
         }
 
+        public void CreateNewVehicle()
+        {
+            SelectedVehicle = new Vehicle("XXX", "XXX", "Xxx", "Xxx", "XXX", "Xxx", new ObservableCollection<string>());
+        }
         private void NotifyPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

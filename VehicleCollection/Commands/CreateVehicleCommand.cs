@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,8 +21,7 @@ namespace VehicleCollection.Commands
         }
         public override void Execute(object? param)
         {
-            this._vehicleVM.SelectedVehicle = new Vehicle("", "", "", "", "", "", new HashSet<string>());
-            this._vehicleDB.UpdateVehicle(_vehicleVM.SelectedVehicle, _vehicleVM.ModifiedVehicle);
+            this._vehicleVM.CreateNewVehicle();
         }
     }
 }

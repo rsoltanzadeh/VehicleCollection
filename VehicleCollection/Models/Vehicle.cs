@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,14 +15,15 @@ namespace VehicleCollection.Models
         public string Brand { get; set; }
         public string FuelType { get; set; }
         public string Color { get; set; }
-        public HashSet<String> Equipment { get; set; }
+        public ObservableCollection<String> Equipment { get; set; }
+
         public string Description { get; set; }
         public override string ToString()
         {
-            return $"{ Brand } { ModelName } ({LicensePlate})";
+            return $"{ Brand } { ModelName } ({LicensePlate}) {VIN}";
         }
         
-        public Vehicle(string VIN, string LicensePlate, string ModelName, string Brand, string FuelType, string Color, HashSet<String> Equipment)
+        public Vehicle(string VIN, string LicensePlate, string ModelName, string Brand, string FuelType, string Color, ObservableCollection<String> Equipment)
         {
             this.VIN = VIN;
             this.LicensePlate = LicensePlate;
@@ -34,14 +36,14 @@ namespace VehicleCollection.Models
         }
         public override bool Equals(object? other)
         {
-            Vehicle otherVehicle = (other as Vehicle) ?? new Vehicle("", "", "", "", "", "", new HashSet<string>());
+            Vehicle otherVehicle = (other as Vehicle) ?? new Vehicle("", "", "", "", "", "", new ObservableCollection<string>());
             return this.VIN == otherVehicle.VIN
                 && this.LicensePlate == otherVehicle.LicensePlate
                 && this.ModelName == otherVehicle.ModelName
                 && this.Brand == otherVehicle.Brand
                 && this.FuelType == otherVehicle.FuelType
                 && this.Color == otherVehicle.Color
-                && this.Equipment.SetEquals(otherVehicle.Equipment);
+                && new HashSet<String>(this.Equipment).SetEquals(new HashSet<String>(otherVehicle.Equipment));
         }
 
         public override int GetHashCode()

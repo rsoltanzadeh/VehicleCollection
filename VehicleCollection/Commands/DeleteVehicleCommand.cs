@@ -20,7 +20,7 @@ namespace VehicleCollection.Commands
         }
         public override void Execute(object? param)
         {
-            this._vehicleDB.UpdateVehicle(_vehicleVM.SelectedVehicle, _vehicleVM.ModifiedVehicle);
+            this._vehicleDB.DeleteVehicle(_vehicleVM.SelectedVehicle);
         }
         public override bool CanExecute(object? param)
         {

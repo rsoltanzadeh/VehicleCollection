@@ -14,8 +14,8 @@ namespace VehicleCollection.Models
         public ObservableCollection<Vehicle> GetVehicles()
         {
             ObservableCollection<Vehicle> vehicles = new ObservableCollection<Vehicle>();
-            vehicles.Add(new Vehicle("43817", "ABC123", "S70", "Volvo", "Bensin", "Vit", new HashSet<string>()));
-            vehicles.Add(new Vehicle("14145", "ZXC987", "Civic Sport Plus", "Honda", "Bensin", "Metallic Svart", new HashSet<string>()));
+            vehicles.Add(new Vehicle("43817", "ABC123", "S70", "Volvo", "Bensin", "Vit", new ObservableCollection<string>()));
+            vehicles.Add(new Vehicle("14145", "ZXC987", "Civic Sport Plus", "Honda", "Bensin", "Metallic Svart", new ObservableCollection<string>()));
             return vehicles;
         }
 
