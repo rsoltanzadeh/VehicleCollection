@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,16 +9,16 @@ using VehicleCollection.ViewModels;
 
 namespace VehicleCollection.Commands
 {
-    public class DeleteVehicleCommand : CommandBase
+    public class GetVehiclesCommand : CommandBase
     {
-        public DeleteVehicleCommand(VehicleViewModel vm, VehicleDatabase model) : base(vm, model) { }
+        public GetVehiclesCommand(VehicleViewModel vm, VehicleDatabase model) : base(vm, model) { }
         public override async void Execute(object? param)
         {
-            await this._vehicleDB.DeleteVehicle(_vehicleVM.SelectedVehicle);
+            _vehicleVM.Vehicles = await this._vehicleDB.GetVehicles();
         }
         public override bool CanExecute(object? param)
         {
-            return this._vehicleVM.SelectedVehicle is not null && base.CanExecute(param);
+            return true;
         }
     }
 }

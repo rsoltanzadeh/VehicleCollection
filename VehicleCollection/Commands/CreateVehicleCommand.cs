@@ -11,14 +11,7 @@ namespace VehicleCollection.Commands
 {
     public class CreateVehicleCommand : CommandBase
     {
-        private readonly VehicleViewModel _vehicleVM;
-        private readonly VehicleDatabase _vehicleDB;
-        public CreateVehicleCommand(VehicleViewModel vm, VehicleDatabase model)
-        {
-            _vehicleVM = vm;
-            _vehicleDB = model;
-            _vehicleVM.PropertyChanged += OnCanExecuteChanged;
-        }
+        public CreateVehicleCommand(VehicleViewModel vm, VehicleDatabase model) : base(vm, model) { }
         public override void Execute(object? param)
         {
             this._vehicleVM.CreateNewVehicle();

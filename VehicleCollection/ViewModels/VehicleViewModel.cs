@@ -168,15 +168,16 @@ namespace VehicleCollection.ViewModels
         public CommandBase DeleteVehicle { get; set; }
         public CommandBase CreateVehicle { get; set; }
         public CommandBase UpdateVehicle { get; set; }
+        public CommandBase GetVehicles { get; set; }
 
 
         public VehicleViewModel()
         {
-            _vehicleDB = new VehicleDatabase("http://hardcodedendpoint");
-            Vehicles = _vehicleDB.GetVehicles();
+            _vehicleDB = new VehicleDatabase("https://jsonplaceholder.typicode.com/albums"); // example endpoint
             UpdateVehicle = new UpdateVehicleCommand(this, _vehicleDB);
             CreateVehicle = new CreateVehicleCommand(this, _vehicleDB);
             DeleteVehicle = new DeleteVehicleCommand(this, _vehicleDB);
+            GetVehicles = new GetVehiclesCommand(this, _vehicleDB);
         }
 
         public void CreateNewVehicle()

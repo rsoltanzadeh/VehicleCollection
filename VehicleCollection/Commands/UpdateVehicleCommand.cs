@@ -11,23 +11,16 @@ namespace VehicleCollection.Commands
 {
     public class UpdateVehicleCommand : CommandBase
     {
-        private readonly VehicleViewModel _vehicleVM;
-        private readonly VehicleDatabase _vehicleDB;
-        public UpdateVehicleCommand(VehicleViewModel vm, VehicleDatabase model)
+        public UpdateVehicleCommand(VehicleViewModel vm, VehicleDatabase model) : base(vm, model) { }
+        public override async void Execute(object? param)
         {
-            _vehicleVM = vm;
-            _vehicleDB = model;
-            _vehicleVM.PropertyChanged += OnCanExecuteChanged;
-        }
-        public override void Execute(object? param)
-        {
-            this._vehicleDB.UpdateVehicle(_vehicleVM.SelectedVehicle, _vehicleVM.ModifiedVehicle);
+            await _vehicleDB.UpdateVehicle(_vehicleVM.SelectedVehicle, _vehicleVM.ModifiedVehicle);
         }
         public override bool CanExecute(object? param)
         {
             if (this._vehicleVM.SelectedVehicle is null) return false;
 
-            return !this._vehicleVM.SelectedVehicle.Equals(this._vehicleVM.ModifiedVehicle);
+            return !this._vehicleVM.SelectedVehicle.Equals(this._vehicleVM.ModifiedVehicle) && base.CanExecute(param);
         }
     }
 }

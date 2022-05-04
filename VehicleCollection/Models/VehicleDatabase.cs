@@ -2,41 +2,71 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace VehicleCollection.Models
 {
     public class VehicleDatabase
     {
-        private string _apiEndpoint;
+        private readonly string _apiEndpoint;
+        private readonly HttpClient _httpClient;
 
-        public ObservableCollection<Vehicle> GetVehicles()
+        private async Task RunAsync()
         {
-            ObservableCollection<Vehicle> vehicles = new ObservableCollection<Vehicle>();
-            vehicles.Add(new Vehicle("43817", "ABC123", "S70", "Volvo", "Bensin", "Vit", new ObservableCollection<string>()));
-            vehicles.Add(new Vehicle("14145", "ZXC987", "Civic Sport Plus", "Honda", "Bensin", "Metallic Svart", new ObservableCollection<string>()));
-            return vehicles;
+            _httpClient.BaseAddress = new Uri(_apiEndpoint);
+            _httpClient.DefaultRequestHeaders.Accept.Clear();
+            _httpClient.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue("application/json")
+            );
+        }
+        public async Task<ObservableCollection<Vehicle>> GetVehicles()
+        {
+            string vehiclesJSON = null;
+            HttpResponseMessage response = await _httpClient.GetAsync(_apiEndpoint);
+            if (response.IsSuccessStatusCode)
+            {
+                vehiclesJSON = await response.Content.ReadAsStringAsync();
+            }
+            return JsonSerializer.Deserialize<ObservableCollection<Vehicle>>(vehiclesJSON);
+        }
+        public async Task<ObservableCollection<Vehicle>> UpdateVehicle(Vehicle oldVehicle, Vehicle newVehicle)
+        {
+            await DeleteVehicle(oldVehicle);
+            return await CreateVehicle(newVehicle);
         }
 
-        public Boolean UpdateVehicle(Vehicle oldVehicle, Vehicle newVehicle)
+        public async Task<ObservableCollection<Vehicle>> DeleteVehicle(Vehicle v)
         {
-            return true;
+            string vehiclesJSON = null;
+            HttpResponseMessage response = await _httpClient.PutAsync($"{_apiEndpoint}/delete", new StringContent(JsonSerializer.Serialize<Vehicle>(v), Encoding.UTF8, "application/json"));
+            if (response.IsSuccessStatusCode)
+            {
+                vehiclesJSON = await response.Content.ReadAsStringAsync();
+            }
+            return JsonSerializer.Deserialize<ObservableCollection<Vehicle>>(vehiclesJSON);
         }
 
-        public Boolean DeleteVehicle(Vehicle v)
+        public async Task<ObservableCollection<Vehicle>> CreateVehicle(Vehicle v)
         {
-            return true;
+            // create or update if VIN already exists
+            string vehiclesJSON = null;
+            HttpResponseMessage response = await _httpClient.PutAsync($"{_apiEndpoint}/create", new StringContent(JsonSerializer.Serialize<Vehicle>(v), Encoding.UTF8, "application/json"));
+            if (response.IsSuccessStatusCode)
+            {
+                vehiclesJSON = await response.Content.ReadAsStringAsync();
+            }
+            return JsonSerializer.Deserialize<ObservableCollection<Vehicle>>(vehiclesJSON);
         }
 
-        public Boolean CreateVehicle(Vehicle v)
+        public VehicleDatabase(string apiEndpoint)
         {
-            return true;
-        }
-
-        public VehicleDatabase(string ApiEndpoint)
-        {
-            this._apiEndpoint = ApiEndpoint;
+            _httpClient = new HttpClient();
+            _apiEndpoint = apiEndpoint;
+            RunAsync();
         }
     }
 }
