@@ -25,6 +25,7 @@ namespace VehicleCollection.Models
         }
         public async Task<ObservableCollection<Vehicle>> GetVehicles()
         {
+            /*
             string vehiclesJSON = null;
             HttpResponseMessage response = await _httpClient.GetAsync(_apiEndpoint);
             if (response.IsSuccessStatusCode)
@@ -32,6 +33,11 @@ namespace VehicleCollection.Models
                 vehiclesJSON = await response.Content.ReadAsStringAsync();
             }
             return JsonSerializer.Deserialize<ObservableCollection<Vehicle>>(vehiclesJSON);
+            */
+            ObservableCollection<Vehicle> vehicles = new ObservableCollection<Vehicle>();
+            vehicles.Add(new Vehicle("VIN12345", "ZXC123", "Civic Sport Plus", "Honda", "Bensin", "Metallic Svart", new ObservableCollection<string>()));
+            vehicles.Add(new Vehicle("VIN-9876-32", "ABC987", "S70", "Volvo", "Bensin", "Vit", new ObservableCollection<string>()));
+            return vehicles;
         }
         public async Task<ObservableCollection<Vehicle>> UpdateVehicle(Vehicle oldVehicle, Vehicle newVehicle)
         {

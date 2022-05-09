@@ -18,10 +18,19 @@ namespace VehicleCollection.ViewModels
         private readonly VehicleDatabase _vehicleDB;
         private Vehicle _selectedVehicle;
         private Vehicle _modifiedVehicle;
+        private ObservableCollection<Vehicle> _vehicles;
 
         public ObservableCollection<Vehicle> Vehicles
         {
-            get; set;
+            get
+            {
+                return _vehicles;
+            } 
+            set
+            {
+                _vehicles = value;
+                NotifyPropertyChanged(nameof(Vehicles));
+            }
         }
         public Vehicle SelectedVehicle
         {
